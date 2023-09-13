@@ -20,28 +20,41 @@ const insertZ = ['spontaneously combusted','melted into a puddle on the sidewalk
 
 randomize.addEventListener('click', result);
 
-let newStory = storyText;
-let xItem = randomValueFromArray(insertX);
-let yItem = randomValueFromArray(insertY);
-let zItem = randomValueFromArray(insertZ);
-
 function result() {
+    
+  // move the variables into the result() to initialize the code 
 
-  newStory.replaceAll(':insertx', xItem);
-  newStory.replace(':inserty', yItem);
-  newStory.replace(':insertz', zItem);
+  let newStory = storyText; // since the storyText will get initialized each time, so we will always be able to replace all the values when we click on the button
+
+  let xItem = randomValueFromArray(insertX);
+  let yItem = randomValueFromArray(insertY);
+  let zItem = randomValueFromArray(insertZ);
+
+  newStory = newStory.replaceAll(':insertx:', xItem); 
+  newStory = newStory.replace(':inserty:', yItem);
+  newStory = newStory.replace(':insertz:', zItem);
+
+  // missed out on updating the newStory variable, thus causing the text unable to change when click 'generate'
 
   if(customName.value !== '') {
-    const name = customName.value;
-    storyText.replace('Bob', name);
-  }
+    let name = customName.value;
+    newStory = newStory.replace('Bob', name);
+  } 
+
+  // added conditions to reset back to 'us' value when 'us' radio button is selected
 
   if(document.getElementById("uk").checked) {
     const weight = Math.round(300/14) + ' stone';
     const temperature =  Math.round((94-32) * 5/9) + ' centigrade';
-    storyText.replace('300 pounds', weight);
-    storyText.replace('94 fahrenheit', temperature);
-  }
+    newStory = newStory.replace('300 pounds', weight);
+    newStory = newStory.replace('94 fahrenheit', temperature);
+  } 
+  /*else {
+    newStory = newStory.replace('21 stone', '300 pounds');
+    newStory = newStory.replace('34 centigrade', '94 fahrenheit');
+  }*/
+
+  // soon realized that since things get initialized so the else statement above is not needed as well lol
 
   story.textContent = newStory;
   story.style.visibility = 'visible';
